@@ -82,7 +82,8 @@ class ModernAppV3(ctk.CTk):
         # === КОМПОНЕНТЫ ===
         self.api: Optional[OctobrowserAPI] = None
         self.available_providers = discover_providers()
-        self.current_provider = self.available_providers[0]
+        # Выбираем smart_citi по умолчанию, если доступен
+        self.current_provider = 'smart_citi' if 'smart_citi' in self.available_providers else self.available_providers[0]
         self.parser = ScriptParser()
         self.side_parser = SeleniumIDEParser()
         otp_enabled = self.config.get('otp', {}).get('enabled', False)
