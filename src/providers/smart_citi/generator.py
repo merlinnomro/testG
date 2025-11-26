@@ -94,7 +94,7 @@ class Generator:
         self.typing_delay = config.get('typing_delay', 100)
 
         # Задержка между действиями (клики, заполнения)
-        self.action_delay = config.get('action_delay', 0.5)
+        self.action_delay = config.get('action_delay', 3)
 
         # ПАРСИНГ: Извлекаем вопросы и действия из user_code
         questions_pool, pre_questions_code, post_questions_code = self._parse_user_code(user_code)

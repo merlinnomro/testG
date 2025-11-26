@@ -1231,7 +1231,7 @@ class ModernAppV3(ctk.CTk):
                 'simulate_typing': self.simulate_typing_var.get(),
                 'typing_delay': int(self.typing_delay_var.get()) if self.typing_delay_var.get().isdigit() else 100,
                 # 🔥 ЗАДЕРЖКА МЕЖДУ ДЕЙСТВИЯМИ (КЛИКИ, ЗАПОЛНЕНИЯ)
-                'action_delay': float(self.action_delay_var.get()) if self.action_delay_var.get().replace('.', '', 1).isdigit() else 0.5,
+                'action_delay': float(self.action_delay_var.get()) if self.action_delay_var.get().replace('.', '', 1).isdigit() else 3,
                 # 🔥 МНОГОПОТОЧНОСТЬ
                 'threads_count': threads_count,
                 # 🎯 ЛИМИТ ИТЕРАЦИЙ (None = все строки CSV)
@@ -1588,7 +1588,7 @@ class ModernAppV3(ctk.CTk):
 
         click_timeout = timeouts.get('click_timeout', 10)
         navigation_timeout = timeouts.get('navigation_timeout', 15)
-        action_delay = timeouts.get('action_delay', 0.5)
+        action_delay = timeouts.get('action_delay', 3)
 
         self.click_timeout_var.set(str(click_timeout))
         self.navigation_timeout_var.set(str(navigation_timeout))
