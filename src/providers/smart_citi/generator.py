@@ -1257,11 +1257,65 @@ def execute_special_command(command: str, page, data_row: Dict):
     Выполнить специальную команду (#pause, #scroll, etc.)
 
     Args:
-        command: Команда (например, "#pause10", "#scrolldown")
+        command: Команда (например, "#pause10", "#scrolldown", "#state")
         page: Playwright page
         data_row: Данные из CSV
     """
+    # Маппинг кодов штатов (двухбуквенные) на полные названия
+    STATE_MAPPING = {
+        'AL': 'Alabama', 'AK': 'Alaska', 'AS': 'American Samoa', 'AZ': 'Arizona', 'AR': 'Arkansas',
+        'CA': 'California', 'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware', 'DC': 'District of Columbia',
+        'FL': 'Florida', 'GA': 'Georgia', 'GU': 'Guam', 'HI': 'Hawaii', 'ID': 'Idaho',
+        'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa', 'KS': 'Kansas', 'KY': 'Kentucky',
+        'LA': 'Louisiana', 'ME': 'Maine', 'MD': 'Maryland', 'MA': 'Massachusetts', 'MI': 'Michigan',
+        'MN': 'Minnesota', 'MS': 'Mississippi', 'MO': 'Missouri', 'MT': 'Montana', 'NE': 'Nebraska',
+        'NV': 'Nevada', 'NH': 'New Hampshire', 'NJ': 'New Jersey', 'NM': 'New Mexico', 'NY': 'New York',
+        'NC': 'North Carolina', 'ND': 'North Dakota', 'MP': 'Northern Mariana Islands', 'OH': 'Ohio', 'OK': 'Oklahoma',
+        'OR': 'Oregon', 'PA': 'Pennsylvania', 'PR': 'Puerto Rico', 'RI': 'Rhode Island', 'SC': 'South Carolina',
+        'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'VI': 'US Virgin Islands', 'UT': 'Utah',
+        'VT': 'Vermont', 'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia', 'WI': 'Wisconsin', 'WY': 'Wyoming',
+        'AA': 'Armed Forces-AA', 'AE': 'Armed Forces-AE', 'AP': 'Armed Forces-AP'
+    }
+
     command = command.strip().lower()
+
+    # #state - выбор штата из dropdown по коду из Field9
+    if command == '#state':
+        print(f'[STATE] Selecting state from dropdown...', flush=True)
+        try:
+            # Получаем код штата из Field9
+            state_code = data_row.get("Field9", "").strip().upper()
+            if not state_code:
+                print(f'[STATE] [ERROR] Field9 is empty!', flush=True)
+                return
+
+            # Конвертируем код в полное название
+            state_full_name = STATE_MAPPING.get(state_code)
+            if not state_full_name:
+                print(f'[STATE] [ERROR] Unknown state code: {state_code}', flush=True)
+                return
+
+            print(f'[STATE] State code: {state_code} -> {state_full_name}', flush=True)
+
+            # Кликаем на dropdown button (role="combobox", name="state")
+            dropdown_button = page.get_by_role("combobox", name="state")
+            dropdown_button.click()
+            print(f'[STATE] Clicked dropdown button', flush=True)
+            time.sleep(0.5)
+
+            # Находим и кликаем на опцию с полным названием штата
+            # Опции находятся в listbox с role="option"
+            state_option = page.get_by_role("option", name=state_full_name)
+            state_option.click()
+            print(f'[STATE] [OK] Selected: {state_full_name}', flush=True)
+            time.sleep(0.3)
+            return
+
+        except Exception as e:
+            print(f'[STATE] [ERROR] {e}', flush=True)
+            import traceback
+            traceback.print_exc()
+        return
 
     # #pause10, #pause5, etc.
     pause_match = re.match(r'#\s*pause\s*(\d+)', command)
