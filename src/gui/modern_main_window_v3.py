@@ -329,11 +329,21 @@ class ModernAppV3(ctk.CTk):
         """Настроить главную вкладку Автоматизация"""
         tab = self.tab_edit
         tab.grid_columnconfigure(0, weight=1)
-        tab.grid_rowconfigure(4, weight=1)  # Увеличили на 1 из-за добавления шагов
+        tab.grid_rowconfigure(0, weight=1)  # Scrollable frame будет расширяться
+        tab.grid_rowconfigure(1, weight=2)  # Code editor больше места
+
+        # Создаём прокручиваемый контейнер для шагов и кнопок
+        scrollable_container = ctk.CTkScrollableFrame(
+            tab,
+            fg_color=self.theme['bg_secondary'],
+            corner_radius=0
+        )
+        scrollable_container.grid(row=0, column=0, sticky="nsew", padx=0, pady=0)
+        scrollable_container.grid_columnconfigure(0, weight=1)
 
         # ========== ШАГ 1: ВЫБОР ПРОВАЙДЕРА ==========
         step1_frame = ctk.CTkFrame(
-            tab,
+            scrollable_container,
             fg_color=self.theme['bg_tertiary'],
             corner_radius=12,
             border_width=2,
@@ -375,7 +385,7 @@ class ModernAppV3(ctk.CTk):
 
         # ========== ШАГ 2: ВСТАВИТЬ КОД ==========
         step2_frame = ctk.CTkFrame(
-            tab,
+            scrollable_container,
             fg_color=self.theme['bg_tertiary'],
             corner_radius=12,
             border_width=2,
@@ -428,7 +438,7 @@ class ModernAppV3(ctk.CTk):
 
         # ========== ШАГ 3: ЗАГРУЗИТЬ CSV ==========
         step3_frame = ctk.CTkFrame(
-            tab,
+            scrollable_container,
             fg_color=self.theme['bg_tertiary'],
             corner_radius=12,
             border_width=2,
@@ -474,7 +484,7 @@ class ModernAppV3(ctk.CTk):
 
         # ========== ШАГ 4: НАСТРОЙКИ И ГЕНЕРАЦИЯ ==========
         step4_frame = ctk.CTkFrame(
-            tab,
+            scrollable_container,
             fg_color=self.theme['bg_tertiary'],
             corner_radius=12,
             border_width=2,
@@ -759,7 +769,7 @@ class ModernAppV3(ctk.CTk):
         ).grid(row=6, column=3, columnspan=3, padx=(5, 15), pady=10, sticky="w")
 
         # ========== КНОПКИ ДЕЙСТВИЙ (АДАПТИВНЫЙ LAYOUT 2x3) ==========
-        btn_frame = ctk.CTkFrame(tab, fg_color="transparent")
+        btn_frame = ctk.CTkFrame(scrollable_container, fg_color="transparent")
         btn_frame.grid(row=4, column=0, sticky="ew", padx=24, pady=(8, 24))
         # Убрали фиксированную высоту и grid_propagate(False) - теперь адаптируется
         btn_frame.grid_columnconfigure((0, 1, 2), weight=1)  # 3 колонки
