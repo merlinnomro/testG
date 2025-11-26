@@ -329,10 +329,9 @@ class ModernAppV3(ctk.CTk):
         """Настроить главную вкладку Автоматизация"""
         tab = self.tab_edit
         tab.grid_columnconfigure(0, weight=1)
-        tab.grid_rowconfigure(0, weight=1)  # Scrollable frame будет расширяться
-        tab.grid_rowconfigure(1, weight=2)  # Code editor больше места
+        tab.grid_rowconfigure(0, weight=1)
 
-        # Создаём прокручиваемый контейнер для шагов и кнопок
+        # Создаём прокручиваемый контейнер для всего содержимого
         scrollable_container = ctk.CTkScrollableFrame(
             tab,
             fg_color=self.theme['bg_secondary'],
@@ -844,13 +843,15 @@ class ModernAppV3(ctk.CTk):
 
         # Code editor
         editor_container = ctk.CTkFrame(
-            tab,
+            scrollable_container,
             corner_radius=16,
             fg_color=self.theme['bg_tertiary'],
             border_width=1,
-            border_color=self.theme['border_primary']
+            border_color=self.theme['border_primary'],
+            height=400
         )
-        editor_container.grid(row=1, column=0, sticky="nsew", padx=24, pady=(0, 24))
+        editor_container.grid(row=5, column=0, sticky="ew", padx=24, pady=(0, 24))
+        editor_container.grid_propagate(False)
         editor_container.grid_columnconfigure(0, weight=1)
         editor_container.grid_rowconfigure(0, weight=1)
 
