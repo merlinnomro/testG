@@ -617,7 +617,7 @@ class ModernAppV3(ctk.CTk):
             text_color=self.theme['text_primary']
         ).grid(row=2, column=0, padx=(15, 5), pady=10, sticky="w")
 
-        self.action_delay_var = tk.StringVar(value="0.5")
+        self.action_delay_var = tk.StringVar(value="3")
         action_delay_entry = ctk.CTkEntry(
             timeouts_frame,
             textvariable=self.action_delay_var,
