@@ -1279,14 +1279,14 @@ def execute_special_command(command: str, page, data_row: Dict):
 
     command = command.strip().lower()
 
-    # #state - выбор штата из dropdown по коду из Field9
+    # #state - выбор штата из dropdown по коду из Field13
     if command == '#state':
         print(f'[STATE] Selecting state from dropdown...', flush=True)
         try:
-            # Получаем код штата из Field9
-            state_code = data_row.get("Field9", "").strip().upper()
+            # Получаем код штата из Field13
+            state_code = data_row.get("Field13", "").strip().upper()
             if not state_code:
-                print(f'[STATE] [ERROR] Field9 is empty!', flush=True)
+                print(f'[STATE] [ERROR] Field13 is empty!', flush=True)
                 return
 
             # Конвертируем код в полное название
