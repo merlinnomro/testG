@@ -91,7 +91,7 @@ class Generator:
 
         # Симуляция ввода текста
         self.simulate_typing = config.get('simulate_typing', True)
-        self.typing_delay = config.get('typing_delay', 400)
+        self.typing_delay = config.get('typing_delay', 500)
 
         # Задержка между действиями (клики, заполнения)
         self.action_delay = config.get('action_delay', 3)

@@ -658,7 +658,7 @@ class ModernAppV3(ctk.CTk):
         )
         simulate_typing_checkbox.grid(row=3, column=0, padx=(15, 5), pady=10, sticky="w")
 
-        self.typing_delay_var = tk.StringVar(value="400")
+        self.typing_delay_var = tk.StringVar(value="500")
         typing_delay_entry = ctk.CTkEntry(
             timeouts_frame,
             textvariable=self.typing_delay_var,
@@ -1240,7 +1240,7 @@ class ModernAppV3(ctk.CTk):
                 'profile': profile_config,
                 # 🔥 СИМУЛЯЦИЯ ВВОДА ТЕКСТА
                 'simulate_typing': self.simulate_typing_var.get(),
-                'typing_delay': int(self.typing_delay_var.get()) if self.typing_delay_var.get().isdigit() else 400,
+                'typing_delay': int(self.typing_delay_var.get()) if self.typing_delay_var.get().isdigit() else 500,
                 # 🔥 ЗАДЕРЖКА МЕЖДУ ДЕЙСТВИЯМИ (КЛИКИ, ЗАПОЛНЕНИЯ)
                 'action_delay': float(self.action_delay_var.get()) if self.action_delay_var.get().replace('.', '', 1).isdigit() else 3,
                 # 🔥 МНОГОПОТОЧНОСТЬ
